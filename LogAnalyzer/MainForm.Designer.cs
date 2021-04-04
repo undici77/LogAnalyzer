@@ -96,16 +96,14 @@ namespace LogAnalyzer
             // 
             this.OpenMenuItem.AutoSize = false;
             this.OpenMenuItem.Name = "OpenMenuItem";
-            this.OpenMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.OpenMenuItem.Text = "Open";
+            this.OpenMenuItem.Size = new System.Drawing.Size(36, 36);
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
             // ExportMenuItem
             // 
             this.ExportMenuItem.AutoSize = false;
             this.ExportMenuItem.Name = "ExportMenuItem";
-            this.ExportMenuItem.Size = new System.Drawing.Size(80, 20);
-            this.ExportMenuItem.Text = "Export";
+            this.ExportMenuItem.Size = new System.Drawing.Size(36, 36);
             this.ExportMenuItem.Click += new System.EventHandler(this.ExportMenuItem_Click);
             // 
             // FilterTextBoxMenuItem
@@ -114,7 +112,7 @@ namespace LogAnalyzer
             this.FilterTextBoxMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FilterTextBoxMenuItem.Name = "FilterTextBoxMenuItem";
             this.FilterTextBoxMenuItem.ShowCueTextWithFocus = false;
-            this.FilterTextBoxMenuItem.Size = new System.Drawing.Size(196, 38);
+            this.FilterTextBoxMenuItem.Size = new System.Drawing.Size(264, 38);
             this.FilterTextBoxMenuItem.TextChanged += new System.EventHandler(this.FilterTextBoxMenuItem_TextChanged);
             // 
             // TextRegexMenuItem

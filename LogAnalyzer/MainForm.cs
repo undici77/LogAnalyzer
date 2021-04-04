@@ -111,6 +111,12 @@ namespace LogAnalyzer
 			LogEngine.Instance.ClearLogDelegate = _Clear_Log_Delegate;
 			LogEngine.Instance.SetProgressBarDelegate = _Set_Progress_Bar_Value_Delegate;
 
+			OpenMenuItem.Image = Properties.Resources.open;
+			OpenMenuItem.ToolTipText = "Open";
+
+			ExportMenuItem.Image = Properties.Resources.export;
+			ExportMenuItem.ToolTipText = "Export";
+
 			buffer = App.Ini_File.GetKeyValue("Window", "Width");
 			if (!int.TryParse(buffer, out width))
 			{
