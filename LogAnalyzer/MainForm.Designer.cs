@@ -290,7 +290,7 @@ namespace LogAnalyzer
 		private System.Windows.Forms.ListView FilterPatternListView;
 		private System.Windows.Forms.ColumnHeader PatternText;
 		private System.Windows.Forms.ToolStripMenuItem FilterPatternMenuItem;
-        private System.Windows.Forms.SplitContainer MainSplitContainer;
+		private System.Windows.Forms.SplitContainer MainSplitContainer;
     }
 }
 

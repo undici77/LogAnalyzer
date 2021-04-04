@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of the LogAnalyzer distribution (https://github.com/undici77/PlugnPutty.git).
  * Copyright (c) 2021 Alessandro Barbieri.
  *
@@ -34,7 +34,7 @@ namespace LogAnalyzer
 	public delegate void SET_LOG_DELEGATE(List<string> content);
 	public delegate void APPEND_LOG_DELEGATE(List<string> content);
 	public delegate void SET_PROGRESS_BAR_VALUE_DELEGATE(int percent);
-	public delegate void SET_EXCEPTION(string description);
+	public delegate void SHOW_EXCEPTION(string description);
 
 	public partial class MainForm : Form
 	{
@@ -42,17 +42,21 @@ namespace LogAnalyzer
 		private SET_LOG_DELEGATE _Set_Log_Delegate;
 		private APPEND_LOG_DELEGATE _Append_Log_Delegate;
 		private SET_PROGRESS_BAR_VALUE_DELEGATE _Set_Progress_Bar_Value_Delegate;
-		private SET_EXCEPTION _Set_Exception_Delegate;
+		private SHOW_EXCEPTION _Show_Exception_Delegate;
 
+		/// @brief Initialize delegates
+		///
 		private void InitializeDelegates()
 		{
 			_Clear_Log_Delegate = new CLEAR_LOG_DELEGATE(this.ClearLog);
 			_Set_Log_Delegate = new SET_LOG_DELEGATE(this.SetLog);
 			_Append_Log_Delegate = new APPEND_LOG_DELEGATE(this.AppendLog);
 			_Set_Progress_Bar_Value_Delegate = new SET_PROGRESS_BAR_VALUE_DELEGATE(this.SetProgressBarValue);
-			_Set_Exception_Delegate = new SET_EXCEPTION(this.SetException);
+			_Show_Exception_Delegate = new SHOW_EXCEPTION(this.ShowException);
 		}
 
+		/// @brief Clear log method
+		///
 		private void ClearLog()
 		{
 			LogListView.VirtualListSize = 0;
@@ -63,6 +67,9 @@ namespace LogAnalyzer
 			MainStatusStripLabel.Text = "";
 		}
 
+		/// @brief Set log method
+		///
+		/// @param content content to append
 		private void SetLog(List<string> content)
 		{
 			_Filtered_Log = new List<string>(content);
@@ -78,6 +85,9 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Append log method
+		///
+		/// @param content content to append
 		private void AppendLog(List<string> content)
 		{
 			_Filtered_Log.AddRange(content);
@@ -90,6 +100,8 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Go to end method
+		///
 		private void GoToEnd()
 		{
 			int count;
@@ -111,6 +123,9 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Set progress bar value
+		///
+		/// @param value progress bar value
 		private void SetProgressBarValue(int value)
 		{
 			if ((value > 0) && (value < PROGRESS_BAR_MAX_VALUE))
@@ -125,7 +140,10 @@ namespace LogAnalyzer
 			}
 		}
 
-		private void SetException(string description)
+		/// @brief Show exception dialog lethod
+		///
+		/// @param description exception description
+		private void ShowException(string description)
 		{
 			MessageBox.Show(this, description, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}

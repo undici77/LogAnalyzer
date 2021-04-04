@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of the LogAnalyzer distribution (https://github.com/undici77/PlugnPutty.git).
  * Copyright (c) 2021 Alessandro Barbieri.
  *
@@ -37,6 +37,11 @@ namespace LogAnalyzer
 		private string _Message;
 		private Regex _Regex;
 
+		/// @brief Constructor
+		///
+		/// @param title message box title
+		/// @param message main message
+		/// @param regex input data validation regex
 		public InputForm(string title, string message, string regex)
 		{
 			try
@@ -54,6 +59,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Form load event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void InputForm_Load(object sender, EventArgs e)
 		{
 			OkButton.Enabled = false;
@@ -66,6 +75,10 @@ namespace LogAnalyzer
 			ActiveControl = InputTextBox;
 		}
 
+		/// @brief Ok buttin click event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void OkButton_Click(object sender, EventArgs e)
 		{
 			try
@@ -86,21 +99,37 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Closing event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void InputForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 		}
 
+		/// @brief Get last result
+		///
+		/// @param data	input data
+		/// @retval	true user press ok and regex match, false user cancel operation
 		public bool GetResult(out string data)
 		{
 			data = _Input.Trim();
 			return (_Ok);
 		}
 
+		/// @brief Cancel button click
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
 
+		/// @brief Input text changed
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void InputTextBox_TextChanged(object sender, EventArgs e)
 		{
 			try
@@ -121,6 +150,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Form keydown event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			try
@@ -148,6 +181,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Buttons keydown event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void Buttons_KeyDown(object sender, KeyEventArgs e)
 		{
 			try
@@ -174,7 +211,6 @@ namespace LogAnalyzer
 			{
 				MessageBox.Show("Exception: " + ex.Message + ex.StackTrace);
 			}
-
 		}
 	}
 }

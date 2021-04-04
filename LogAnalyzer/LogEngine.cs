@@ -52,7 +52,7 @@ namespace LogAnalyzer
 		private volatile bool _Follow;
 
 		private Control _User_Interface;
-		private Delegate _Set_Exceprion_Delegate;
+		private Delegate _Show_Exception_Delegate;
 		private Delegate _Clear_Log_Delegate;
 		private Delegate _Set_Log_Delegate;
 		private Delegate _Append_Log_Delegate;
@@ -153,9 +153,9 @@ namespace LogAnalyzer
 			_Parse_Event = null;
 		}
 
-		/// @brief Parse engine
+		/// @brief Require log engine to refresh filtered data
 		///
-		public void ParseThread()
+		public void Refresh()
 		{
 			if (_Parse_Event != null)
 			{
@@ -221,7 +221,7 @@ namespace LogAnalyzer
 			}
 		}
 
-		
+
 		/// @brief Setter of user interface to send UI async messages
 		///
 		public Control UserInterface
@@ -234,11 +234,11 @@ namespace LogAnalyzer
 
 		/// @brief Setter of user interface exception delegate
 		///
-		public Delegate SetExceptionDelegate
+		public Delegate ShowExceptionDelegate
 		{
 			set
 			{
-				_Set_Exceprion_Delegate = value;
+				_Show_Exception_Delegate = value;
 			}
 		}
 
@@ -297,7 +297,7 @@ namespace LogAnalyzer
 			}
 		}
 
-		/// @brief Filter thread procedure
+		/// @brief Read/Update/Filter log data thread procedure
 		///
 		private void FilterThread()
 		{
@@ -316,7 +316,7 @@ namespace LogAnalyzer
 				_File_Position = -1;
 				if (!ReadLog(_File_Name, ref _Log, ref _File_Position, ref _File_Length, ref _File_Write_Time))
 				{
-					_User_Interface.Invoke(_Set_Exceprion_Delegate, "Enable to read " + _File_Name);
+					_User_Interface.Invoke(_Show_Exception_Delegate, "Enable to read " + _File_Name);
 				}
 
 				end = true;
@@ -342,7 +342,7 @@ namespace LogAnalyzer
 						_User_Interface.Invoke(_Clear_Log_Delegate);
 						_Log_Filtered.Clear();
 
-						end = ParseLog(filter_text, filter_regex, filter, ref _Log, out filtered);
+						end = ProcessLog(filter_text, filter_regex, filter, ref _Log, out filtered);
 
 						if (end)
 						{
@@ -363,7 +363,7 @@ namespace LogAnalyzer
 								if (UpdateLog(_File_Name, ref update, ref _File_Position, ref _File_Length, ref _File_Write_Time))
 								{
 									_Log.AddRange(update);
-									ParseLog(filter_text, filter_regex, filter, ref update, out filtered);
+									ProcessLog(filter_text, filter_regex, filter, ref update, out filtered);
 									if (filtered.Count > 0)
 									{
 										_User_Interface.Invoke(_Append_Log_Delegate, filtered);
@@ -381,11 +381,11 @@ namespace LogAnalyzer
 			}
 			catch (Exception ex)
 			{
-				_User_Interface.Invoke(_Set_Exceprion_Delegate, ex.Message + ex.StackTrace);
+				_User_Interface.Invoke(_Show_Exception_Delegate, ex.Message + ex.StackTrace);
 			}
 		}
 
-		/// @brief Read log file
+		/// @brief Read log file from begin to end tracking file position and last write time
 		///
 		/// @param file_name log file name
 		/// @param log list of extracted log lines
@@ -464,7 +464,7 @@ namespace LogAnalyzer
 			return (false);
 		}
 
-		/// @brief Update part of log file (tail)
+		/// @brief Update log starting from last read position until the end tracking file position and last write time
 		///
 		/// @param file_name log file name
 		/// @param log list of extracted log lines
@@ -543,7 +543,7 @@ namespace LogAnalyzer
 			return (false);
 		}
 
-		/// @brief Parse log using right filter
+		/// @brief Process log data
 		///
 		/// @param filter_text text filter string
 		/// @param filter_regex	regex filter string
@@ -551,7 +551,7 @@ namespace LogAnalyzer
 		/// @param log log list to filter
 		/// @param filtered	filtered log list
 		/// @retval
-		private bool ParseLog(string filter_text, string filter_regex, FILTER filter, ref List<string> log, out List<string> filtered)
+		private bool ProcessLog(string filter_text, string filter_regex, FILTER filter, ref List<string> log, out List<string> filtered)
 		{
 			bool result;
 			Regex regex;
@@ -563,7 +563,7 @@ namespace LogAnalyzer
 				{
 					if ((filter_text == null) || (filter_text == ""))
 					{
-						result = PrintUnfilteredLog(log, out filtered);
+						result = UnfilteredLog(log, out filtered);
 					}
 					else
 					{
@@ -575,7 +575,7 @@ namespace LogAnalyzer
 				{
 					if ((filter_regex == null) || (filter_regex == ""))
 					{
-						result = PrintUnfilteredLog(log, out filtered);
+						result = UnfilteredLog(log, out filtered);
 					}
 					else
 					{
@@ -593,19 +593,19 @@ namespace LogAnalyzer
 			return (result);
 		}
 
-		/// @brief Print unfiltered log 
+		/// @brief Create unfiltered log
 		///
 		/// @param log log to print
 		/// @param filtered	log printed
 		/// @retval	true ok, false error
-		private bool PrintUnfilteredLog(List<string> log, out List<string> filtered)
+		private bool UnfilteredLog(List<string> log, out List<string> filtered)
 		{
 			filtered = new List<string>(log);
 
 			return (true);
 		}
 
-		/// @brief Print log using text pattern 
+		/// @brief Filter log using text pattern
 		///
 		/// @param log log to print
 		/// @param text_pattern text pattern list
@@ -656,7 +656,7 @@ namespace LogAnalyzer
 			return (true);
 		}
 
-		/// @brief Print log using regex 
+		/// @brief Filter log using regex
 		///
 		/// @param log log to print
 		/// @param regex regex to use as filter

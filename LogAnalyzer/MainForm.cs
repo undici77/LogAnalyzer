@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of the LogAnalyzer distribution (https://github.com/undici77/PlugnPutty.git).
  * Copyright (c) 2021 Alessandro Barbieri.
  *
@@ -61,6 +61,9 @@ namespace LogAnalyzer
 
 		private bool _Log_List_View_Follow_Enable;
 
+		/// @brief Form constructor
+		///
+		/// @param args	args from main construction
 		public MainForm(string[] args)
 		{
 			string file_name;
@@ -88,6 +91,10 @@ namespace LogAnalyzer
 			UpdateTitle();
 		}
 
+		/// @brief Form load event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			string buffer;
@@ -98,7 +105,7 @@ namespace LogAnalyzer
 			LogEngine.Instance.ProgressBarMaxValue = PROGRESS_BAR_MAX_VALUE;
 
 			LogEngine.Instance.UserInterface = this;
-			LogEngine.Instance.SetExceptionDelegate = _Set_Exception_Delegate;
+			LogEngine.Instance.ShowExceptionDelegate = _Show_Exception_Delegate;
 			LogEngine.Instance.SetLogDelegate = _Set_Log_Delegate;
 			LogEngine.Instance.AppendLogDelegate = _Append_Log_Delegate;
 			LogEngine.Instance.ClearLogDelegate = _Clear_Log_Delegate;
@@ -121,7 +128,7 @@ namespace LogAnalyzer
 			{
 				splitter_distance  = width - 200;
 			}
-			
+
 			this.Size = new System.Drawing.Size(width, height);
 			MainSplitContainer.SplitterDistance = splitter_distance;
 
@@ -182,6 +189,8 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Load filter pattern list from ini file
+		///
 		void LoadFilterPatternList()
 		{
 			FILTER_PATTERN pattern;
@@ -239,6 +248,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Form closing event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			try
@@ -259,6 +272,10 @@ namespace LogAnalyzer
 
 		}
 
+		/// @brief Filter text changed
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void FilterTextBoxMenuItem_TextChanged(object sender, EventArgs e)
 		{
 			if (LogEngine.Instance.Filter == LogEngine.FILTER.REGEX)
@@ -274,9 +291,13 @@ namespace LogAnalyzer
 				App.Ini_File.SetKeyValue("Menu", "FilterText", FilterTextBoxMenuItem.Text, true);
 			}
 
-			LogEngine.Instance.ParseThread();
+			LogEngine.Instance.Refresh();
 		}
 
+		/// @brief Menu File Open event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void OpenMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog;
@@ -300,6 +321,10 @@ namespace LogAnalyzer
 			UpdateTitle();
 		}
 
+		/// @brief Log listview drag event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_DragEnter(object sender, DragEventArgs e)
 		{
 			string[] file_name;
@@ -321,6 +346,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Log listview drop event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_DragDrop(object sender, DragEventArgs e)
 		{
 			string[] file_name;
@@ -337,26 +366,44 @@ namespace LogAnalyzer
 			UpdateTitle();
 		}
 
+		/// @brief Form resize event (called continuously in order to resize related controls)
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void MainForm_Resize(object sender, EventArgs e)
 		{
 			ResizeControls();
 		}
 
+		/// @brief Form resize end event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void MainForm_ResizeEnd(object sender, EventArgs e)
 		{
 			ResizeControls();
 		}
 
+		/// @brief Form maximize event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void MainForm_MaximumSizeChanged(object sender, EventArgs e)
 		{
 			ResizeControls();
 		}
 
-        private void MainSplitContainer_SplitterMoved(object sender, SplitterEventArgs e)
-        {
+		/// @brief Splitter move event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
+		private void MainSplitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+		{
 			ResizeControls();
 		}
 
+		/// @brief Resize all controls based on form size and update data to save to ini file (only in RAM)
+		///
 		private void ResizeControls()
 		{
 			try
@@ -373,6 +420,10 @@ namespace LogAnalyzer
 			{
 			}
 		}
+		/// @brief Export menu click
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void ExportMenuItem_Click(object sender, EventArgs e)
 		{
 			SaveFileDialog dialog;
@@ -390,6 +441,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Text/Regex menu click event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void TextRegexMenuItem_Click(object sender, EventArgs e)
 		{
 			if (LogEngine.Instance.Filter == LogEngine.FILTER.REGEX)
@@ -403,10 +458,12 @@ namespace LogAnalyzer
 				App.Ini_File.SetKeyValue("Menu", "TextRegex", "1");
 			}
 
-			LogEngine.Instance.ParseThread();
+			LogEngine.Instance.Refresh();
 			TextRegexMenuItemUpdate();
 		}
 
+		/// @brief Text/Regex menu item update
+		///
 		private void TextRegexMenuItemUpdate()
 		{
 			if (LogEngine.Instance.Filter == LogEngine.FILTER.REGEX)
@@ -425,6 +482,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Follow menu item click
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void FollowMenuItem_Click(object sender, EventArgs e)
 		{
 			LogEngine.Instance.Follow = !LogEngine.Instance.Follow;
@@ -443,6 +504,8 @@ namespace LogAnalyzer
 			FollowMenuItemUpdate();
 		}
 
+		/// @brief Follow menu item update
+		///
 		private void FollowMenuItemUpdate()
 		{
 			if (LogEngine.Instance.Follow)
@@ -465,6 +528,8 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Update title bar data
+		///
 		private void UpdateTitle()
 		{
 			this.Text = App.Name + " " + App.Version;
@@ -474,6 +539,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Log listview selected index change
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int id;
@@ -501,6 +570,10 @@ namespace LogAnalyzer
 			FollowMenuItemUpdate();
 		}
 
+		/// @brief Log listview key down event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (LogEngine.Instance.Follow && ((e.KeyCode == Keys.End) || (e.KeyCode == Keys.Escape)))
@@ -511,6 +584,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Log listview retrieve items (in virtual mode in order to be as efficient as possible)
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
 		{
 			try
@@ -537,6 +614,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Sidebar pattern listview double click
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void PatternListView_DoubleClick(object sender, EventArgs e)
 		{
 			int index;
@@ -576,6 +657,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Filter item menu click event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void FilterPatternMenuItem_Click(object sender, EventArgs e)
 		{
 			MainSplitContainer.Panel2Collapsed = !MainSplitContainer.Panel2Collapsed;
@@ -594,6 +679,10 @@ namespace LogAnalyzer
 			ResizeControls();
 		}
 
+		/// @brief Log listview mouse click event (to copy selected ite content)
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListView_MouseClick(object sender, MouseEventArgs e)
 		{
 			ContextMenuStrip menu_strip;
@@ -607,6 +696,10 @@ namespace LogAnalyzer
 			}
 		}
 
+		/// @brief Log listview menu strip click event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
 		private void LogListViewMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
 			int    id;
@@ -623,5 +716,5 @@ namespace LogAnalyzer
 				Clipboard.SetText(text);
 			}
 		}
-    }
+	}
 }

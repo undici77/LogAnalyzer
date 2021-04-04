@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of the LogAnalyzer distribution (https://github.com/undici77/PlugnPutty.git).
  * Copyright (c) 2021 Alessandro Barbieri.
  *
@@ -36,6 +36,9 @@ namespace LogAnalyzer
 		static extern bool SetForegroundWindow(IntPtr hWnd);
 
 		static MainForm _Main_Form;
+
+		///  @brief Main form instance
+		///
 		static public MainForm Instance
 		{
 			get
@@ -45,6 +48,9 @@ namespace LogAnalyzer
 		}
 
 		static string _Version;
+
+		///  @brief Application version
+		///
 		static public string Version
 		{
 			get
@@ -54,6 +60,9 @@ namespace LogAnalyzer
 		}
 
 		static string _Name;
+
+		///  @brief Application name
+		///
 		static public string Name
 		{
 			get
@@ -63,6 +72,9 @@ namespace LogAnalyzer
 		}
 
 		static string _Path;
+
+		///  @brief Application exe path
+		///
 		static public string Path
 		{
 			get
@@ -72,6 +84,9 @@ namespace LogAnalyzer
 		}
 
 		static IniFile _Ini_File;
+
+		///  @brief Application ini file
+		///
 		static public IniFile Ini_File
 		{
 			get
@@ -81,6 +96,9 @@ namespace LogAnalyzer
 		}
 
 		static string _Ini_File_Name;
+
+		///  @brief Application ini file name
+		///
 		static public string Ini_File_Name
 		{
 			get
@@ -90,6 +108,9 @@ namespace LogAnalyzer
 		}
 
 		static IniFile _Pattern_Ini_File;
+
+		///  @brief Filter pattern ini file
+		///
 		static public IniFile Pattern_Ini_File
 		{
 			get
@@ -99,6 +120,9 @@ namespace LogAnalyzer
 		}
 
 		static string _Pattern_Ini_File_Name;
+
+		///  @brief Filter pattern ini file name
+		///
 		static public string Pattern_Ini_File_Name
 		{
 			get
@@ -108,6 +132,9 @@ namespace LogAnalyzer
 		}
 
 		[STAThread]
+		/// @brief Maion procedure
+		///
+		/// @param args	command line arguments
 		static void Main(string[] args)
 		{
 			bool created;
@@ -115,7 +142,7 @@ namespace LogAnalyzer
 			bool multi_instance;
 			string buffer;
 
-			TimeBeginPeriod(10);
+			TimeBeginPeriod(1);
 
 			process_name = System.IO.Directory.GetCurrentDirectory() + " - " + Application.ProductName;
 			process_name = process_name.Replace("\\", "");

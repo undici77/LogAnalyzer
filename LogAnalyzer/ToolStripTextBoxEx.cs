@@ -29,6 +29,8 @@ using System.Runtime.InteropServices;
 public class ToolStripTextBoxEx : ToolStripTextBox
 {
 
+	/// @brief Constructor
+	///
 	public ToolStripTextBoxEx() : base()
 	{
 		if (this.Control != null)
@@ -37,6 +39,9 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 		}
 	}
 
+	/// @brief Constructor
+	///
+	/// @brief name class name
 	public ToolStripTextBoxEx(string name) : base(name)
 	{
 		if (this.Control != null)
@@ -45,6 +50,9 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 		}
 	}
 
+	/// @brief Dispose
+	///
+	/// @param disposing disposing state
 	protected override void Dispose(bool disposing)
 	{
 		if (disposing)
@@ -58,6 +66,10 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 		base.Dispose(disposing);
 	}
 
+	/// @brief Control handled created event
+	///
+	/// @param sender object who generate event
+	/// @param e events arguments
 	void OnControlHandleCreated(object sender, EventArgs e)
 	{
 		UpdateCue();
@@ -69,13 +81,15 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 	[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
 	private static extern IntPtr SendMessage(HandleRef hWnd, uint Msg, IntPtr wParam, String lParam);
 
-	private string _CueText = String.Empty;
+	private string _Cue_Text = String.Empty;
 
+	/// @brief Setter cue text
+	///
 	public string CueText
 	{
 		get
 		{
-			return _CueText;
+			return _Cue_Text;
 		}
 		set
 		{
@@ -84,66 +98,80 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 				value = String.Empty;
 			}
 
-			if (!_CueText.Equals(value, StringComparison.CurrentCulture))
+			if (!_Cue_Text.Equals(value, StringComparison.CurrentCulture))
 			{
-				_CueText = value;
+				_Cue_Text = value;
 				UpdateCue();
 				OnCueTextChanged(EventArgs.Empty);
 			}
 		}
 	}
 
-	public event EventHandler _CueTextChanged;
+	public event EventHandler _Cue_Text_Changed;
 
+	/// @brief Cue text changed
+	///
+	/// @param e events arguments
 	protected virtual void OnCueTextChanged(EventArgs e)
 	{
-		EventHandler handler = _CueTextChanged;
+		EventHandler handler = _Cue_Text_Changed;
 		if (handler != null)
 		{
 			handler(this, e);
 		}
 	}
 
-	private bool _ShowCueTextWithFocus = false;
+	private bool _Show_Cue_Text_With_Focus = false;
 
+	/// @brief Setter/Getter show cute text and set focus
+	///
 	public bool ShowCueTextWithFocus
 	{
 		get
 		{
-			return _ShowCueTextWithFocus;
+			return _Show_Cue_Text_With_Focus;
 		}
 		set
 		{
-			if (_ShowCueTextWithFocus != value)
+			if (_Show_Cue_Text_With_Focus != value)
 			{
-				_ShowCueTextWithFocus = value;
+				_Show_Cue_Text_With_Focus = value;
 				UpdateCue();
 				OnShowCueTextWithFocusChanged(EventArgs.Empty);
 			}
 		}
 	}
 
-	public event EventHandler _ShowCueTextWithFocusChanged;
+	public event EventHandler _Show_Cue_Text_With_Focus_Changed;
 
 	[EditorBrowsable(EditorBrowsableState.Advanced)]
+	/// @brief Show cute textbox change event
+	///
+	/// @param e events arguments
 	protected virtual void OnShowCueTextWithFocusChanged(EventArgs e)
 	{
-		EventHandler handler = _ShowCueTextWithFocusChanged;
+		EventHandler handler = _Show_Cue_Text_With_Focus_Changed;
 		if (handler != null)
 		{
 			handler(this, e);
 		}
 	}
 
+	/// @brief Force update cue
+	///
 	private void UpdateCue()
 	{
 		if ((this.Control != null) && (this.Control.IsHandleCreated))
 		{
-			SendMessage(new HandleRef(this.Control, this.Control.Handle), EM_SETCUEBANNER, (_ShowCueTextWithFocus) ? new IntPtr(1) : IntPtr.Zero, _CueText);
+			SendMessage(new HandleRef(this.Control, this.Control.Handle), EM_SETCUEBANNER, (_Show_Cue_Text_With_Focus) ? new IntPtr(1) : IntPtr.Zero, _Cue_Text);
 		}
 	}
 
-	public override Size GetPreferredSize(Size constrainingSize)
+	/// @brief Get preferred size method
+	///
+	/// @param constraining_size constraining size required by the owner
+	/// @retval	size
+	public override Size GetPreferredSize(Size constraining_size)
 	{
 		Int32 width;
 		Int32 spring_box_count;
@@ -189,10 +217,9 @@ public class ToolStripTextBoxEx : ToolStripTextBox
 			width = DefaultSize.Width;
 		}
 
-		size = base.GetPreferredSize(constrainingSize);
+		size = base.GetPreferredSize(constraining_size);
 		size.Width = width - 12;
 
 		return (size);
 	}
-
 }
