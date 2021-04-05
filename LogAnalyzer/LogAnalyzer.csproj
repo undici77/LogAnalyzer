@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="IniFile.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
@@ -77,6 +83,9 @@
     <Compile Include="ToolStripTextBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InputForm.resx">
       <DependentUpon>InputForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -121,6 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="res\logo.png" />
+    <None Include="res\LogAnalyzer.ico" />
     <None Include="res\open.png" />
     <None Include="res\export.png" />
     <None Include="res\about.png" />

@@ -117,6 +117,9 @@ namespace LogAnalyzer
 			ExportMenuItem.Image = Properties.Resources.export;
 			ExportMenuItem.ToolTipText = "Export";
 
+			AboutMenuItem.Image = Properties.Resources.about;
+			AboutMenuItem.ToolTipText = "About";
+
 			buffer = App.Ini_File.GetKeyValue("Window", "Width");
 			if (!int.TryParse(buffer, out width))
 			{
@@ -415,7 +418,7 @@ namespace LogAnalyzer
 			try
 			{
 				LogListView.Columns[0].Width = LogListView.ClientSize.Width;
-				FilterPatternListView.Columns[0].Width = -1;
+				FilterPatternListView.Columns[0].Width = -2;
 				MainStatusStripProgressBar.Width = MainStatusStrip.ClientSize.Width - MainStatusStripLabel.Width - 30;
 
 				App.Ini_File.SetKeyValue("Window", "Width", this.Size.Width.ToString());
@@ -683,6 +686,16 @@ namespace LogAnalyzer
 			}
 
 			ResizeControls();
+		}
+
+		/// @brief About item menu click event
+		///
+		/// @param sender object who generate event
+		/// @param e events arguments
+		private void AboutMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutBox a = new AboutBox();
+			a.ShowDialog();
 		}
 
 		/// @brief Log listview mouse click event (to copy selected ite content)

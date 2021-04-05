@@ -51,6 +51,7 @@ namespace LogAnalyzer
             this.MainFormMenuStrip = new System.Windows.Forms.MenuStrip();
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterTextBoxMenuItem = new ToolStripTextBoxEx();
             this.TextRegexMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FollowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +82,7 @@ namespace LogAnalyzer
             this.MainFormMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
             this.ExportMenuItem,
+            this.AboutMenuItem,
             this.FilterTextBoxMenuItem,
             this.TextRegexMenuItem,
             this.FollowMenuItem,
@@ -106,13 +108,21 @@ namespace LogAnalyzer
             this.ExportMenuItem.Size = new System.Drawing.Size(36, 36);
             this.ExportMenuItem.Click += new System.EventHandler(this.ExportMenuItem_Click);
             // 
+            // AboutMenuItem
+            // 
+            this.AboutMenuItem.AutoSize = false;
+            this.AboutMenuItem.Name = "AboutMenuItem";
+            this.AboutMenuItem.Padding = new System.Windows.Forms.Padding(0);
+            this.AboutMenuItem.Size = new System.Drawing.Size(36, 36);
+            this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
+            // 
             // FilterTextBoxMenuItem
             // 
             this.FilterTextBoxMenuItem.CueText = "";
             this.FilterTextBoxMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FilterTextBoxMenuItem.Name = "FilterTextBoxMenuItem";
             this.FilterTextBoxMenuItem.ShowCueTextWithFocus = false;
-            this.FilterTextBoxMenuItem.Size = new System.Drawing.Size(264, 38);
+            this.FilterTextBoxMenuItem.Size = new System.Drawing.Size(139, 38);
             this.FilterTextBoxMenuItem.TextChanged += new System.EventHandler(this.FilterTextBoxMenuItem_TextChanged);
             // 
             // TextRegexMenuItem
@@ -277,6 +287,7 @@ namespace LogAnalyzer
 		private System.Windows.Forms.MenuStrip MainFormMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExportMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
 		private System.Windows.Forms.ListViewEx LogListView;
 		private System.Windows.Forms.ColumnHeader LogContentText;
 		private System.Windows.Forms.StatusStrip MainStatusStrip;
