@@ -7,7 +7,7 @@ The smart text log analyzer you have ever dream!
 From my first experience as firmware engineer more than 20 years ago, I needed to analyze and filter many text file contains data in order to understand what was happened.
 Under Linux environment `tail`, `grep`are basic powerful tools enough for me, but under Windows? You can get same tools, but when a Technical assistance engineer or Electrician need use them, `tail` and `grep` are little too much!
   
-So I started to search a window tool that do what tail and grep do but I can't find!
+I started to search a window tool that do what tail and grep do but I can't find!
 
 So, I start to write some tools in many different languages from Visual Basic 6 to MFC and first version of .NET (1.1) making many experiences, and now last version in C# and .NET 4.6.
 
